@@ -130,9 +130,9 @@ public class GUI extends JFrame implements ActionListener {
             buttons[i][0].setText(String.valueOf(i));
             buttons[i][0].setForeground(Color.BLACK);
         }
-        buttons[7][0].setIcon(new ImageIcon("assets/Images/sum.png"));
-        buttons[10][0].setIcon(new ImageIcon("assets/Images/sum.png"));
-        buttons[16][0].setIcon(new ImageIcon("assets/Images/sum.png"));
+        buttons[7][0].setIcon(new ImageIcon("src/assets/Images/sum.png"));
+        buttons[10][0].setIcon(new ImageIcon("src/assets/Images/sum.png"));
+        buttons[16][0].setIcon(new ImageIcon("src/assets/Images/sum.png"));
         buttons[7][0].setBackground(Color.WHITE);
         buttons[10][0].setBackground(Color.WHITE);
         buttons[16][0].setBackground(Color.WHITE);
@@ -235,17 +235,17 @@ public class GUI extends JFrame implements ActionListener {
                                     btns[0][k].setFlag(1);
                                     //butt[0][k].setText(vr+"");
                                     if (vr == 1) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-1.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
                                     } else if (vr == 2) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-2.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
                                     } else if (vr == 3) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-3.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
                                     } else if (vr == 4) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-4.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
                                     } else if (vr == 5) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-5.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
                                     } else if (vr == 6) {
-                                        btns[0][k].setIcon(new ImageIcon("assets/Images/45px-Dice-6.png"));
+                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
                                     }
                                     break;
                                 }
@@ -322,17 +322,17 @@ public class GUI extends JFrame implements ActionListener {
                         if (btns[1][i].getFlag() == 1 ||
                                 (btns[1][i].getFlag() == 0 && throwCount == 1)) {
                             if (array[i] == 1) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-1.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
                             } else if (array[i] == 2) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-2.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
                             } else if (array[i] == 3) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-3.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
                             } else if (array[i] == 4) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-4.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
                             } else if (array[i] == 5) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-5.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
                             } else if (array[i] == 6) {
-                                btns[1][i].setIcon(new ImageIcon("assets/Images/45px-Dice-6.png"));
+                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
                             }
                             btns[1][i].setFlag(1);
                             btns[1][i].setValue(array[i]);
@@ -463,7 +463,7 @@ public class GUI extends JFrame implements ActionListener {
 
     public void playSound() {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("assets/Sounds/dieThrow3.wav"));
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("src/assets/Sounds/dieThrow3.wav"));
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
             clip.start();
