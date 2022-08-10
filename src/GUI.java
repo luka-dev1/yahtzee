@@ -156,7 +156,7 @@ public class GUI extends JFrame implements ActionListener {
         buttons[0][2].setForeground(Color.BLACK);
         buttons[0][3].setText("UP");
         buttons[0][3].setForeground(Color.BLACK);
-        buttons[0][4].setText("ANNOUNCE");
+        buttons[0][4].setText("CALL");
         buttons[0][4].setForeground(Color.BLACK);
     }
 
