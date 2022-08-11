@@ -225,153 +225,170 @@ public class GUI extends JFrame implements ActionListener {
             for (int i = 0; i < 2; i++) {
                 for (int j = 0; j < 6; j++) {
                     if (btns[i][j] == b) {
-                        if (i == 1 && counter < 5) {
-                            btns[1][j].setFlag(0);
-                            btns[1][j].setEnabled(false);
-                            int vr = btns[1][j].getValue();
-                            for (int k = 0; k < 5; k++) {
-                                if (btns[0][k].getFlag() == 0) {
-                                    btns[0][k].setValue(vr);
-                                    btns[0][k].setFlag(1);
-                                    //butt[0][k].setText(vr+"");
-                                    if (vr == 1) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
-                                    } else if (vr == 2) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
-                                    } else if (vr == 3) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
-                                    } else if (vr == 4) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
-                                    } else if (vr == 5) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
-                                    } else if (vr == 6) {
-                                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
-                                    }
-                                    break;
-                                }
-                            }
-                            counter++;
-                        } else if (i == 0 && counter > 0) {
-                            btns[0][j].setIcon(null);
-                            btns[0][j].setText("");
-                            btns[0][j].setFlag(0);
-                            int vr = btns[0][j].getValue();
-                            btns[0][j].setValue(0);
-                            for (int k = 0; k < 6; k++) {
-                                if (vr == btns[1][k].getValue()
-                                        && btns[1][k].getFlag() == 0) {
-                                    btns[1][k].setEnabled(true);
-                                    btns[1][k].setFlag(1);
-                                    break;
-                                }
-                            }
-                            counter--;
-                        }
+                        showChosenDice(i, j);
                     }
                 }
             }
-
             for (int i = 1; i < 17; i++)
                 for (int j = 1; j < 6; j++) {
-                    if (b == buttons[i][j]) {
-                        int n = 0;
-                        for (int k = 0; k < 5; k++) {
-                            if (btns[0][k].getFlag() == 1) {
-                                ++n;
-                            }
-                        }
-                        int[] dice = new int[n];
-                        int index = 0;
-                        for (int k = 0; k < 5; k++) {
-                            if (btns[0][k].getFlag() == 1) {
-                                dice[index++] = btns[0][k].value;
-                            }
-                        }
-                        if (j == 4) {
-                            if (!engine.announcementInProgress && throwCount == 2 && engine.fields[i][j].getIsFillable()) {
-                                engine.announcementInProgress = true;
-                                engine.announcedRow = i;
-                                buttons[i][j].setBackground(Color.BLUE);
-                            } else if (engine.announcementInProgress) {
-                                if (i == engine.announcedRow && (i == 8 || i == 9) && dice.length < 5) {
-                                    JOptionPane.showMessageDialog(this, "5 dice needed.");
-                                } else if (i == engine.announcedRow) {
-                                    Fill(i, j);
-                                    Clear();
-                                    engine.announcementInProgress = false;
-                                    engine.announcedRow = 0;
-                                    buttons[i][j].setBackground(Color.WHITE);
-                                }
-                            }
-                        }
-
-                        if ((!((i == 8 || i == 9) && dice.length < 5))
-                                && (engine.fields[i][j].getIsFillable())
-                                && (j != 4) && !engine.announcementInProgress) {
-                            Fill(i, j);
-                            Clear();
-                        }
-                    }
+                    setUpGameFields(i, j, b);
                 }
         } else if (e.getSource() instanceof JButton b) {
             if (b == btnThrowDice) {
-                if (throwCount <= 3) {
-                    playSound();
-                    int[] array = engine.randomize(6);
-                    for (int i = 0; i < 6; i++) {
-                        if (btns[1][i].getFlag() == 1 ||
-                                (btns[1][i].getFlag() == 0 && throwCount == 1)) {
-                            if (array[i] == 1) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
-                            } else if (array[i] == 2) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
-                            } else if (array[i] == 3) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
-                            } else if (array[i] == 4) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
-                            } else if (array[i] == 5) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
-                            } else if (array[i] == 6) {
-                                btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
-                            }
-                            btns[1][i].setFlag(1);
-                            btns[1][i].setValue(array[i]);
-                        }
-                    }
-                    if (throwCount == 3) {
-                        btnThrowDice.setEnabled(false);
-                    }
-                } else {
-                    throwCount = 1;
-                }
-                throwCount++;
-                if (throwCount == 4) {
-                    throwCount = 1;
-                }
-                lblThrowCount.setText("Throw Count: " + throwCount);
+                setUpThrowDiceBtn();
             } else if (b == btnNewGame) {
-                if (engine.announcementInProgress) {
-                    buttons[engine.announcedRow][4].setBackground(Color.WHITE);
-                }
-                engine.newGame();
-                Clear();
-                throwCount = 1;
-                lblThrowCount.setText("Throw Count: " + throwCount);
-                result = engine.sum;
-                lblResult.setText("Result: " + result);
-                for (int i = 1; i < 17; i++)
-                    for (int j = 1; j < 6; j++) {
-                        buttons[i][j].setText("");
-                    }
-
+                setUpNewGameBtn();
             } else {
                 dispose();
             }
         }
     }
 
+    void showChosenDice(int i, int j){
+        if (i == 1 && counter < 5) {
+            btns[1][j].setFlag(0);
+            btns[1][j].setEnabled(false);
+            int v = btns[1][j].getValue();
+            for (int k = 0; k < 5; k++) {
+                if (btns[0][k].getFlag() == 0) {
+                    btns[0][k].setValue(v);
+                    btns[0][k].setFlag(1);
+                    //butt[0][k].setText(vr+"");
+                    if (v == 1) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
+                    } else if (v == 2) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
+                    } else if (v == 3) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
+                    } else if (v == 4) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
+                    } else if (v == 5) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
+                    } else if (v == 6) {
+                        btns[0][k].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
+                    }
+                    break;
+                }
+            }
+            counter++;
+        } else if (i == 0 && counter > 0) {
+            btns[0][j].setIcon(null);
+            btns[0][j].setText("");
+            btns[0][j].setFlag(0);
+            int vr = btns[0][j].getValue();
+            btns[0][j].setValue(0);
+            for (int k = 0; k < 6; k++) {
+                if (vr == btns[1][k].getValue()
+                        && btns[1][k].getFlag() == 0) {
+                    btns[1][k].setEnabled(true);
+                    btns[1][k].setFlag(1);
+                    break;
+                }
+            }
+            counter--;
+        }
+    }
 
-    public void Clear() {
+    void setUpGameFields(int i, int j, GameButton b){
+        if (b == buttons[i][j]) {
+            int n = 0;
+            for (int k = 0; k < 5; k++) {
+                if (btns[0][k].getFlag() == 1) {
+                    ++n;
+                }
+            }
+            int[] dice = new int[n];
+            int index = 0;
+            for (int k = 0; k < 5; k++) {
+                if (btns[0][k].getFlag() == 1) {
+                    dice[index++] = btns[0][k].value;
+                }
+            }
+            if (j == 4) {
+                setUpCallColumn(i, j, dice);
+            }
+
+            if ((!((i == 8 || i == 9) && dice.length < 5))
+                    && (engine.fields[i][j].getIsFillable())
+                    && (j != 4) && !engine.announcementInProgress) {
+                fill(i, j);
+                clear();
+            }
+        }
+    }
+
+    void setUpCallColumn(int i, int j, int[] dice){
+        if (!engine.announcementInProgress && throwCount == 2 && engine.fields[i][j].getIsFillable()) {
+            engine.announcementInProgress = true;
+            engine.announcedRow = i;
+            buttons[i][j].setBackground(Color.BLUE);
+        } else if (engine.announcementInProgress) {
+            if (i == engine.announcedRow && (i == 8 || i == 9) && dice.length < 5) {
+                JOptionPane.showMessageDialog(this, "5 dice needed.");
+            } else if (i == engine.announcedRow) {
+                fill(i, j);
+                clear();
+                engine.announcementInProgress = false;
+                engine.announcedRow = 0;
+                buttons[i][j].setBackground(Color.WHITE);
+            }
+        }
+    }
+
+    void setUpThrowDiceBtn(){
+        if (throwCount <= 3) {
+            playSound();
+            int[] array = engine.randomize(6);
+            for (int i = 0; i < 6; i++) {
+                if (btns[1][i].getFlag() == 1 ||
+                        (btns[1][i].getFlag() == 0 && throwCount == 1)) {
+                    if (array[i] == 1) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-1.png"));
+                    } else if (array[i] == 2) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-2.png"));
+                    } else if (array[i] == 3) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-3.png"));
+                    } else if (array[i] == 4) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-4.png"));
+                    } else if (array[i] == 5) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-5.png"));
+                    } else if (array[i] == 6) {
+                        btns[1][i].setIcon(new ImageIcon("src/assets/Images/45px-Dice-6.png"));
+                    }
+                    btns[1][i].setFlag(1);
+                    btns[1][i].setValue(array[i]);
+                }
+            }
+            if (throwCount == 3) {
+                btnThrowDice.setEnabled(false);
+            }
+        } else {
+            throwCount = 1;
+        }
+        throwCount++;
+        if (throwCount == 4) {
+            throwCount = 1;
+        }
+        lblThrowCount.setText("Throw Count: " + throwCount);
+    }
+
+    void setUpNewGameBtn(){
+        if (engine.announcementInProgress) {
+            buttons[engine.announcedRow][4].setBackground(Color.WHITE);
+        }
+        engine.newGame();
+        clear();
+        throwCount = 1;
+        lblThrowCount.setText("Throw Count: " + throwCount);
+        result = engine.sum;
+        lblResult.setText("Result: " + result);
+        for (int i = 1; i < 17; i++)
+            for (int j = 1; j < 6; j++) {
+                buttons[i][j].setText("");
+            }
+    }
+
+    public void clear() {
         throwCount = 1;
         counter = 0;
         for (int i = 0; i < 2; i++)
@@ -385,7 +402,7 @@ public class GUI extends JFrame implements ActionListener {
         btnThrowDice.setEnabled(true);
     }
 
-    public void Fill(int i, int j) {
+    public void fill(int i, int j) {
         int n = 0;
         for (int k = 0; k < 5; k++) {
             if (btns[0][k].getFlag() == 1) {
@@ -446,7 +463,7 @@ public class GUI extends JFrame implements ActionListener {
                 int option = JOptionPane.showConfirmDialog(this, "Start new Game?", "Game Over", JOptionPane.YES_NO_OPTION);
                 if (option == JOptionPane.YES_OPTION) {
                     engine.newGame();
-                    Clear();
+                    clear();
                     throwCount = 1;
                     lblThrowCount.setText("Throw Count: " + throwCount);
                     lblResult.setText("Result: " + engine.sum);
